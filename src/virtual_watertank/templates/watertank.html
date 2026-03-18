@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #f7f5f5;
+            background-image: url("/static/img/D000.webp");
+            background-repeat: no-repeat;
+            background-position: left 8px top 50px;
+        }
+    </style>
+</head>
+<body>
+    <p>Tank level(%): <strong id="level-value">{{ level }}</strong> Mode: <strong id="mode-value">{{ mode }}</strong></p>
+    <div id="container">
+        <img id="tank-image" alt="Tank level" />
+    </div>
+    <script>
+        const BASE_IMG_PATH = "/static/img/";
+        const imageBufferFill = [];
+        const imageBufferDrain = [];
+        function preloadFrames() {
+            for (let i = 0; i <= 100; i++) {
+                const padded = String(i).padStart(3, "0");
+                const imgFill = new Image();
+                imgFill.src = `${BASE_IMG_PATH}F${padded}.webp`;
+                imageBufferFill[i] = imgFill;
+                const imgDrain = new Image();
+                imgDrain.src = `${BASE_IMG_PATH}D${padded}.webp`;
+                imageBufferDrain[i] = imgDrain;
+            }
+        }
+        const tankImage = document.getElementById("tank-image");
+        function updateLevel() {
+            fetch("/level")
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                const padded = String(data.level).padStart(3, '0');
+                document.getElementById("level-value").textContent = data.level;
+                document.getElementById("mode-value").textContent = data.mode;
+                if (data.mode == "fill") {
+                    const buffered = imageBufferFill[data.level];
+                    tankImage.src = buffered ? buffered.src : `${BASE_IMG_PATH}F${padded}.webp`;
+                } else {
+                    const buffered = imageBufferDrain[data.level];
+                    tankImage.src = buffered ? buffered.src : `${BASE_IMG_PATH}D${padded}.webp`;
+                };  
+            });
+        };
+        preloadFrames();
+        updateLevel();
+        setInterval(updateLevel, 1000);
+    </script>
+</body>
+</html>
+
+
+
