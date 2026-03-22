@@ -38,7 +38,10 @@ cd virtual_watertank
 3) Run the tank container
 
 ```
-docker compose up
+cd virtual_watertank
+docker compose up 
+# or
+docker-compose up
 ```
 
 4) Observe the Tank in a browser
@@ -47,6 +50,13 @@ Open two browser windows:
 - http://localhost:5050   # this is the virtual watertank display
 - http://localhost:5051   # this is the virtual level controller UI
 
+5) Stop the Tank
+```
+cd virtual_watertank
+docker compose down 
+# or
+docker-compose down
+```
 
 ### Optional: 
 If you want to run the python applications locally then set up a virtual environment:

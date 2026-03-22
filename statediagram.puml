@@ -1,0 +1,53 @@
+@startuml WaterTankController
+
+title Tank and Controller State Diagram
+
+state "Water Tank Controlled by Level Controller" as P1 {
+
+  state ControllerStartup {
+    [*] --> Init 
+    Init : Find Initial Tank State
+    
+    Init --> UnderFill
+    UnderFill : Fill to MinFill
+    UnderFill --> MinFill
+    MinFill --> PartialFill
+    
+    Init --> MinFill
+    MinFill : Fill to PartialFill
+    
+    Init --> PartialFill
+    PartialFill : Fill or Drain
+    PartialFill --> Run
+    
+    Init --> MaxFill
+    MaxFill : Drain to PartialFill
+    
+    Init --> OverFill
+    OverFill : Drain to MaxFill
+    OverFill --> MaxFill
+    MaxFill --> PartialFill
+  }
+  
+  state Run {
+    state Cycle {
+      MaxLimit --> MinLimit : Drain
+      MinLimit --> MaxLimit : Fill
+    }
+    
+    State Hold {
+      
+    }
+    
+    Cycle -> Hold
+    Hold -> Cycle
+  }
+  
+}
+
+footer
+	Created by rmoorewrs
+end footer
+
+
+@enduml
