@@ -167,12 +167,14 @@ draft = TankDraft(level_setpoint=state.level_setpoint, level_delta=state.level_d
 def acheive_partial_state(state: TankState):
     if (state.tank_state== "OVERFILL"):
         while ( state.tank_state == "OVERFILL"):
+            state.dir_state = "DRAIN"
             state.comm.drain(state.level_increment)
             state.print("acheive_partial_state() OVERFILL")
             time.sleep(float(state.update_period/1000.0))
             state.compute_current_state()
     elif (state.tank_state== "UNDERFILL"):
         while ( state.tank_state == "UNDERFILL"):
+            state.dir_state = "FILL"
             state.comm.fill(state.level_increment)
             state.print("acheive_partial_state() UNDERFILL")
             time.sleep(float(state.update_period/1000.0))
