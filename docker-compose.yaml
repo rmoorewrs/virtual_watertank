@@ -5,7 +5,7 @@ services:
     container_name: watertank
     ports:
     - 5050:5050
-    restart: unless-stopped
+    restart: always
   levelcontroller:
     image: levelcontroller:latest
     container_name: levelcontroller
