@@ -1,0 +1,14 @@
+---
+services:
+  watertank:
+    image: docker.io/rmoorewrs/watertank:latest
+    container_name: watertank
+    ports:
+    - 5050:5050
+    restart: always
+  levelcontroller:
+    image: docker.io/rmoorewrs/levelcontroller:latest
+    container_name: levelcontroller
+    ports:
+    - 5051:5051
+
