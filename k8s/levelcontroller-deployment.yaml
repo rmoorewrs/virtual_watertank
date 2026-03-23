@@ -1,27 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.38.0 (a8f5d1cbd)
-  labels:
-    io.kompose.service: levelcontroller
   name: levelcontroller
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      io.kompose.service: levelcontroller
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.38.0 (a8f5d1cbd)
-      labels:
-        io.kompose.service: levelcontroller
     spec:
       containers:
-        - image: levelcontroller:latest
+        - image: docker.io/rmoorewrs/levelcontroller:latest
           name: levelcontroller
           ports:
             - containerPort: 5051

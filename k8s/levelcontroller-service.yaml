@@ -1,16 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.38.0 (a8f5d1cbd)
-  labels:
-    io.kompose.service: levelcontroller
   name: levelcontroller
 spec:
   ports:
     - name: "5051"
       port: 5051
       targetPort: 5051
-  selector:
-    io.kompose.service: levelcontroller
+

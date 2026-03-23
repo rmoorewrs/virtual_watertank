@@ -1,16 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.38.0 (a8f5d1cbd)
-  labels:
-    io.kompose.service: watertank
   name: watertank
 spec:
   ports:
     - name: "5050"
       port: 5050
       targetPort: 5050
-  selector:
-    io.kompose.service: watertank
