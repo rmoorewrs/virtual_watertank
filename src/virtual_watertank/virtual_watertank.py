@@ -1,9 +1,12 @@
 import os
-import uuid
+import argparse
 from flask import Flask, render_template, send_file, abort
 from flask_restful import Api, Resource, reqparse
 from io import BytesIO
 from PIL import Image
+from pathlib import Path
+import yaml
+import uuid
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,11 +16,57 @@ api = Api(app)
 level - 0-100 integer representing percentage of full
 mode - can be either fill | drain
 """
-my_id = uuid.uuid4()
-my_name = f"Tank_"+ my_id.hex[-4:]
+MYID = uuid.uuid4()
+MYNAME = f"Tank_"+ MYID.hex[-4:]
+CONFIG_FILENAME = 'config.yaml'
+WATERTANK_URL = '12.7.0.0.1'
+WATERTANK_PORT = '5050'
+
 mode_types = ['drain','fill']
-tank_state = {'level': 0,'mode': 'drain','uuid':my_id.hex,'name':my_name}
+tank_state = {'level': 0,'mode': 'drain','uuid':MYID.hex,'name':MYNAME}
 current_image_filename = 'D000.webp'
+
+class Config:
+    config_file = None
+    tank_config = None
+    tank_ip_address = None
+    tank_ip_port = None
+    name = None
+    uuid = None
+
+    def __init__(self, config_file: str | None = CONFIG_FILENAME) -> None:
+        if config_file is not None:
+            config_path = Path(config_file)
+            try:
+                with config_path.open('r', encoding='utf-8') as file:
+                    config_data = yaml.safe_load(file) or {}
+            except FileNotFoundError:
+                print(f'Config file not found: {config_path}. Using built-in defaults.')
+                config_data = {}
+
+            self.tank_config = config_data.get('watertank', config_data)
+            self.tank_ip_address = self.tank_config.get('tank_ip_address',WATERTANK_URL)
+            self.tank_ip_port = self.tank_config.get('tank_ip_port',WATERTANK_PORT)
+
+        self.name = self.tank_config.get('name',MYNAME)
+        self.uuid = self.tank_config.get('uuid',uuid.uuid4())
+        self.name = f'{self.name}-{str(self.uuid)[-4:]}'
+
+    def as_dict(self) -> dict[str, int | bool]:
+        return {
+            'tank_ip_address': self.tank_ip_address,
+            'tank_ip_port': self.tank_ip_port,
+            'name': self.name,
+            'uuid': self.uuid
+        }
+
+    def as_config(self, format: str = 'json') -> str:
+        config = {
+            'watertank': {
+                'tank_ip_address': self.tank_ip_address,
+                'tank_ip_port': self.tank_ip_port,
+            }
+        }
 
 # parsing validator (hopefully)
 def force_valid_range(value):
@@ -133,6 +182,24 @@ class TankName(Resource):
         return tank_state['name']
 
 
+# helper to parse command line arguments
+def parse_startup_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description='Virtual Water Tank')
+    parser.add_argument(
+        '--config',
+        default='config.yaml',
+        help='Path to YAML config file (default: config.yaml)',
+    )
+    args, _unknown = parser.parse_known_args()
+    return args
+
+
+# create objects
+startup_args = parse_startup_args()
+config = Config(startup_args.config)
+
+
+# API endpoints
 api.add_resource(Level, '/level')
 api.add_resource(Fill,'/fill')
 api.add_resource(Drain,'/drain')
@@ -148,4 +215,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True,port=5050)
+    app.run(host='0.0.0.0',debug=True,port=config.tank_ip_port)

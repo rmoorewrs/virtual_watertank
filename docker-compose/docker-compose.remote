@@ -5,10 +5,12 @@ services:
     container_name: watertank
     ports:
     - 5050:5050
-    restart: always
+    volumes:
+    - ./config:/config
   levelcontroller:
     image: docker.io/rmoorewrs/levelcontroller:latest
     container_name: levelcontroller
     ports:
     - 5051:5051
-
+    volumes:
+    - ./config:/config:watertank

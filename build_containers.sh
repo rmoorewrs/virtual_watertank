@@ -2,11 +2,7 @@
 echo Building two docker containers
 export CUR_DIR=$(pwd)
 
-cd ${CUR_DIR}/src/virtual_watertank
-docker build -t watertank .
+docker build -f Dockerfile.watertank -t watertank:latest .
+docker build -f Dockerfile.levelcontroller -t levelcontroller:latest .
 
-cd ${CUR_DIR}/src/virtual_levelcontroller
-docker build -t levelcontroller .
-cd ${CUR_DIR}
-
-echo docker compose up
+echo run 'docker compose up' or 'docker-compose up'

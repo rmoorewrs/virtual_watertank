@@ -1,0 +1,27 @@
+---
+services:
+  watertank:
+    image: watertank:latest
+    container_name: watertank
+    ports:
+    - 5060:5060
+    restart: always
+  levelcontroller:
+    image: levelcontroller:latest
+    container_name: levelcontroller
+    ports:
+    - 5061:5061
+
+  tcpdump:
+    image: nicolaka/netshoot
+    depends_on:
+      - nginx
+    command: tcpdump -i eth0 -w /data/nginx.pcap
+    network_mode: service:nginx
+    volumes:
+      - $PWD/data:/data
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8090:80

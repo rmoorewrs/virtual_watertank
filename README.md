@@ -3,7 +3,7 @@ A simple simulated watertank and level controller that run in containers, with w
 
 author: Rich Moore - rmoorewrs@gmail.com
 
-![HTTP Display](https://github.com/rmoorewrs/virtual_watertank/blob/main/doc_img/tank-animation.gif)
+![HTTP Display](doc_img/tank-and-controller.gif)
 
 ## Requirements
 - docker and docker-compose
@@ -20,6 +20,9 @@ By default the project creates two containers and they're started by docker-comp
 - curl
 
 >See the Optional section below on how to run the apps locally. 
+
+
+>NOTE: modern browsers seem to take it upon themselves to arbitrarily block some ports while accepting others. For example, using ports `5050/5051` for the 2 containers seems to work perfectly fine, but ports `5060/5061` are blocked at this time. Some browsers gave a helpful error, others quietly refused to connect, so be warned if you change ports to unknown ranges.  
 
 ## Instructions
 
@@ -58,7 +61,10 @@ docker compose down
 docker-compose down
 ```
 
-### Optional: 
+---
+
+### Running Locally (not in container): 
+6) set Up Virtual Environment
 If you want to run the python applications locally then set up a virtual environment:
 ```
 cd  # into top level of git repo
@@ -69,7 +75,32 @@ pip install -r requirements.txt
 ```
 When you want to exit the virtual environment, just type `deactivate`
 
->NOTE: you will need to edit the IP address in `src/virtual_levelcontroller/virtual_levelcontroller.py` since it assumes running in docker compose with a service named `watertank` 
+7) Copy and edit the config.yaml file
+```
+cp <git_repo_directory>/config/local/config.yaml .
+```
+Optional: Edit the ports to work for your setup
+
+8) Run the Tank first
+From the top level git directory
+```
+source .venv/bin/activate
+python3 src/virtual_watertank/virtual_watertank.py --config ./config.yaml
+```
+Open browser to the port specified in `config/local/config.yaml` i.e. `5050`
+
+9) Run the Level Controller
+Open another shell and cd into the top level of the git repo
+```
+source .venv/bin/activate
+python3 src/virtual_levelcontroller/virtual_controller.py --config ./config.yaml
+```
+
+
+### Changing Parameters in the `config.yaml` file
+When running 
+
+
 
 ### Test the API using curl
 

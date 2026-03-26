@@ -1,0 +1,11 @@
+---
+watertank:
+    tank_ip_address: '127.0.0.1'
+    tank_ip_port: '5050'
+    name: 'tank'
+levelcontroller:
+    controller_ip_address: '127.0.0.1'
+    controller_ip_port: '5051'
+    level_setpoint: '70'
+    level_delta: '5'
+    name: 'controller'

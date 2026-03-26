@@ -1,24 +1,30 @@
 FROM elxrlinux/elxr:12.12.0.0
 
-EXPOSE 80 443 5000 8080
-
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confnew" -qy install --no-install-recommends \
     python3 \
     python3-pip \
-    python3-requests \
+    python3-flask \
+    python3-flask-restful \
+    python3-pil \
     tini
 
-RUN pip install --break-system-packages nicegui
+RUN pip install --break-system-packages pyaml
 
 # create non-root user
 RUN /usr/sbin/useradd -m --shell /bin/bash wruser
 
 # Copy the app
 WORKDIR /home/wruser
-COPY  ./virtual_controller.py .
-COPY ./launch.sh .
-
+COPY  ./src/virtual_watertank/virtual_watertank.py .
+COPY ./src/virtual_watertank/launch.sh .
+COPY ./src/virtual_watertank/static ./static/
+COPY ./src/virtual_watertank/templates ./templates/
 RUN chown -R wruser:wruser /home/wruser
+
+# Copy the config file
+RUN mkdir -p /config
+COPY ./config/dockercompose/config.yaml /config/config.yaml
+RUN chown -R wruser:wruser /config
 
 # tini runs in single child mode by default, -g sets group mode
 ENTRYPOINT ["/usr/bin/tini","-g"]
