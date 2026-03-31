@@ -1,0 +1,26 @@
+---
+services:
+  watertank:
+    image: watertank:latest
+    container_name: watertank
+    ports:
+    - 5050:5050
+    volumes:
+    - ./config:/config
+  levelcontroller:
+    image: levelcontroller:latest
+    container_name: levelcontroller
+    ports:
+    - 5051:5051
+    volumes:
+    - ./config:/config:watertank
+  nodered:
+    image: mynodered:latest
+    container_name: nodered
+    ports:
+    - 1880:1880
+    volumes:
+    - ./data:/data
+
+
+

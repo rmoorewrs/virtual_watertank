@@ -1,0 +1,137 @@
+[
+    {
+        "id": "6a8e14c60b3282e8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9aab47a3ba0a72b3",
+        "type": "http request",
+        "z": "6a8e14c60b3282e8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://watertank:5050/level",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 470,
+        "y": 160,
+        "wires": [
+            [
+                "c77d342cffa15511",
+                "d71b673c849b1c32"
+            ]
+        ]
+    },
+    {
+        "id": "c77d342cffa15511",
+        "type": "debug",
+        "z": "6a8e14c60b3282e8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "d71b673c849b1c32",
+        "type": "json",
+        "z": "6a8e14c60b3282e8",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "8d6e6ee5742a0845"
+            ]
+        ]
+    },
+    {
+        "id": "8d6e6ee5742a0845",
+        "type": "debug",
+        "z": "6a8e14c60b3282e8",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "b38fbd090ae9d873",
+        "type": "trigger",
+        "z": "6a8e14c60b3282e8",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "5",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "9aab47a3ba0a72b3"
+            ]
+        ]
+    },
+    {
+        "id": "671190332fcba6a5",
+        "type": "inject",
+        "z": "6a8e14c60b3282e8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 160,
+        "wires": [
+            [
+                "b38fbd090ae9d873"
+            ]
+        ]
+    }
+]

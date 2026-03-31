@@ -1,0 +1,112 @@
+[
+    {
+        "id": "696c0dbeed57cf53",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "78f3eb752b56e94d",
+        "type": "inject",
+        "z": "696c0dbeed57cf53",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "f5c91ff36017271a"
+            ]
+        ]
+    },
+    {
+        "id": "f5c91ff36017271a",
+        "type": "http request",
+        "z": "696c0dbeed57cf53",
+        "name": "watertank level request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://watertank:5050/level",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 330,
+        "y": 80,
+        "wires": [
+            [
+                "0940135c74822f8b",
+                "92b25f1b164ecf3a"
+            ]
+        ]
+    },
+    {
+        "id": "92b25f1b164ecf3a",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "0940135c74822f8b",
+        "type": "json",
+        "z": "696c0dbeed57cf53",
+        "name": "level object",
+        "property": "payload",
+        "action": "",
+        "pretty": true,
+        "x": 610,
+        "y": 80,
+        "wires": [
+            [
+                "e1c4dc13e4023509"
+            ]
+        ]
+    },
+    {
+        "id": "e1c4dc13e4023509",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 80,
+        "wires": []
+    }
+]
