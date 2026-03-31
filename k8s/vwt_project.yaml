@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: watertank
+spec:
+  selector:
+    matchLabels:
+      app: watertank
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: watertank
+    spec:
+      containers:
+        - image: docker.io/rmoorewrs/watertank:latest
+          name: watertank
+          ports:
+            - containerPort: 5050
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: watertank
+spec:
+  type: NodePort
+  selector:
+    app: watertank
+  ports:
+    - name: "5050"
+      port: 5050
+      targetPort: 5050
+      nodePort: 30050
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: levelcontroller
+spec:
+  selector:
+    matchLabels:
+      app: levelcontroller
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: levelcontroller
+    spec:
+      containers:
+        - image: docker.io/rmoorewrs/levelcontroller:latest
+          name: levelcontroller
+          ports:
+            - containerPort: 5051
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: levelcontroller
+spec:
+  type: NodePort
+  selector:
+    app: levelcontroller
+  ports:
+    - name: "5051"
+      port: 5051
+      targetPort: 5051
+      nodePort: 30051
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodered
+spec:
+  selector:
+    matchLabels:
+      app: nodered
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nodered
+    spec:
+      containers:
+        - image: docker.io/rmoorewrs/vwt_custom_nodered:latest
+          name: nodered
+          ports:
+            - containerPort: 1880
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodered
+spec:
+  type: NodePort
+  selector:
+    app: nodered
+  ports:
+    - name: "1880"
+      port: 1880
+      targetPort: 1880
+      nodePort: 30880

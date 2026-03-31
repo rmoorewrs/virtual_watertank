@@ -15,7 +15,7 @@ services:
     volumes:
     - ./config:/config:watertank
   nodered:
-    image: mynodered:latest
+    image: vwt_custom_nodered:latest
     container_name: nodered
     ports:
     - 1880:1880

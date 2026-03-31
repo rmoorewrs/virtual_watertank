@@ -63,7 +63,7 @@ docker-compose down
 
 ---
 
-### Running Locally (not in container): 
+### Running Native Python Locally (i.e. not in container): 
 6) set Up Virtual Environment
 If you want to run the python applications locally then set up a virtual environment:
 ```
@@ -96,9 +96,35 @@ source .venv/bin/activate
 python3 src/virtual_levelcontroller/virtual_controller.py --config ./config.yaml
 ```
 
+### Running in Kubernetes
+Copy the yaml files from `./k8s` to whatever location gives you the ability to run `kubectl` for your cluster. 
+
+To run all 3 containers
+- watertank
+- levelcontroller
+- nodered
+
+you can apply the combined projet file `vwt_project.yaml` or you can apply the files individually
+```
+kubectl apply -f vwt_project.yaml
+```
+or
+```
+kubectl apply -f watertank.yaml
+kubectl apply -f levelcontroller.yaml
+kubectl apply -f nodered.yaml
+```
+
+The container UIs should be available after a short time as node ports on whichever node is running the pods. For example, if the node IP address is `10.10.10.2`
+```
+http://10.10.10.2:30050 -- Watertank
+http://10.10.10.2:30051 -- Levelcontroller
+http://10.10.10.2:30880 -- NodeRed UI
+```
+
 
 ### Changing Parameters in the `config.yaml` file
-When running 
+[TODO]
 
 
 

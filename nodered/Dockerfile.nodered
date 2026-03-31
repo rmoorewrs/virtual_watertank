@@ -1,2 +1,5 @@
  FROM nodered/node-red:latest
  RUN npm install node-red-contrib-modbus @redplc/node-red-redplc
+
+RUN mkdir -p /data
+COPY ./data /data
