@@ -1,6 +1,6 @@
 [
     {
-        "id": "6a8e14c60b3282e8",
+        "id": "696c0dbeed57cf53",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -8,107 +8,9 @@
         "env": []
     },
     {
-        "id": "9aab47a3ba0a72b3",
-        "type": "http request",
-        "z": "6a8e14c60b3282e8",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://watertank:5050/level",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 470,
-        "y": 160,
-        "wires": [
-            [
-                "c77d342cffa15511",
-                "d71b673c849b1c32"
-            ]
-        ]
-    },
-    {
-        "id": "c77d342cffa15511",
-        "type": "debug",
-        "z": "6a8e14c60b3282e8",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 660,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "d71b673c849b1c32",
-        "type": "json",
-        "z": "6a8e14c60b3282e8",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 650,
-        "y": 220,
-        "wires": [
-            [
-                "8d6e6ee5742a0845"
-            ]
-        ]
-    },
-    {
-        "id": "8d6e6ee5742a0845",
-        "type": "debug",
-        "z": "6a8e14c60b3282e8",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 800,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "b38fbd090ae9d873",
-        "type": "trigger",
-        "z": "6a8e14c60b3282e8",
-        "name": "",
-        "op1": "1",
-        "op2": "0",
-        "op1type": "str",
-        "op2type": "str",
-        "duration": "5",
-        "extend": false,
-        "overrideDelay": false,
-        "units": "s",
-        "reset": "",
-        "bytopic": "all",
-        "topic": "topic",
-        "outputs": 1,
-        "x": 260,
-        "y": 160,
-        "wires": [
-            [
-                "9aab47a3ba0a72b3"
-            ]
-        ]
-    },
-    {
-        "id": "671190332fcba6a5",
+        "id": "78f3eb752b56e94d",
         "type": "inject",
-        "z": "6a8e14c60b3282e8",
+        "z": "696c0dbeed57cf53",
         "name": "",
         "props": [
             {
@@ -126,11 +28,262 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 100,
-        "y": 160,
+        "x": 120,
+        "y": 80,
         "wires": [
             [
-                "b38fbd090ae9d873"
+                "f5c91ff36017271a"
+            ]
+        ]
+    },
+    {
+        "id": "f5c91ff36017271a",
+        "type": "http request",
+        "z": "696c0dbeed57cf53",
+        "name": "watertank level request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://watertank:5050/level",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 330,
+        "y": 80,
+        "wires": [
+            [
+                "0940135c74822f8b",
+                "92b25f1b164ecf3a"
+            ]
+        ]
+    },
+    {
+        "id": "92b25f1b164ecf3a",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "0940135c74822f8b",
+        "type": "json",
+        "z": "696c0dbeed57cf53",
+        "name": "level object",
+        "property": "payload",
+        "action": "",
+        "pretty": true,
+        "x": 610,
+        "y": 80,
+        "wires": [
+            [
+                "e1c4dc13e4023509"
+            ]
+        ]
+    },
+    {
+        "id": "e1c4dc13e4023509",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "db57733692a59646",
+        "type": "http request",
+        "z": "696c0dbeed57cf53",
+        "name": "Water Tank Fill",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://watertank:5050/fill",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 560,
+        "y": 220,
+        "wires": [
+            [
+                "a97f5be06fbdf1f2"
+            ]
+        ]
+    },
+    {
+        "id": "a97f5be06fbdf1f2",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "227c50cf505c4ea5",
+        "type": "inject",
+        "z": "696c0dbeed57cf53",
+        "name": "Fill Tank 1%",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "dafc30562a72bcb3"
+            ]
+        ]
+    },
+    {
+        "id": "dafc30562a72bcb3",
+        "type": "function",
+        "z": "696c0dbeed57cf53",
+        "name": "set_post_message",
+        "func": "msg.payload = '{\"delta_level\": 1}';\nmsg.headers = {};\nmsg.headers['Content-Type'] = 'application/json';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 220,
+        "wires": [
+            [
+                "db57733692a59646"
+            ]
+        ]
+    },
+    {
+        "id": "de98a23e306f75cc",
+        "type": "http request",
+        "z": "696c0dbeed57cf53",
+        "name": "Water Tank Drain",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://watertank:5050/drain",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 320,
+        "wires": [
+            [
+                "b8404123a1c5852b"
+            ]
+        ]
+    },
+    {
+        "id": "b8404123a1c5852b",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b1ba9d1b4a99d476",
+        "type": "inject",
+        "z": "696c0dbeed57cf53",
+        "name": "Drain Tank 1%",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "6b4e3491db85a747"
+            ]
+        ]
+    },
+    {
+        "id": "6b4e3491db85a747",
+        "type": "function",
+        "z": "696c0dbeed57cf53",
+        "name": "set_post_message",
+        "func": "msg.payload = '{\"delta_level\": 1}';\nmsg.headers = {};\nmsg.headers['Content-Type'] = 'application/json';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "de98a23e306f75cc"
             ]
         ]
     }

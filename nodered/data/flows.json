@@ -11,7 +11,7 @@
         "id": "78f3eb752b56e94d",
         "type": "inject",
         "z": "696c0dbeed57cf53",
-        "name": "",
+        "name": "Read Tank Level",
         "props": [
             {
                 "p": "payload"
@@ -29,7 +29,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 120,
-        "y": 80,
+        "y": 60,
         "wires": [
             [
                 "f5c91ff36017271a"
@@ -52,30 +52,13 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 330,
-        "y": 80,
+        "x": 350,
+        "y": 60,
         "wires": [
             [
-                "0940135c74822f8b",
-                "92b25f1b164ecf3a"
+                "0940135c74822f8b"
             ]
         ]
-    },
-    {
-        "id": "92b25f1b164ecf3a",
-        "type": "debug",
-        "z": "696c0dbeed57cf53",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 580,
-        "y": 20,
-        "wires": []
     },
     {
         "id": "0940135c74822f8b",
@@ -86,7 +69,7 @@
         "action": "",
         "pretty": true,
         "x": 610,
-        "y": 80,
+        "y": 60,
         "wires": [
             [
                 "e1c4dc13e4023509"
@@ -97,16 +80,197 @@
         "id": "e1c4dc13e4023509",
         "type": "debug",
         "z": "696c0dbeed57cf53",
-        "name": "debug 2",
+        "name": "Level Output",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 800,
-        "y": 80,
+        "x": 810,
+        "y": 60,
         "wires": []
+    },
+    {
+        "id": "db57733692a59646",
+        "type": "http request",
+        "z": "696c0dbeed57cf53",
+        "name": "Water Tank Fill",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://watertank:5050/fill",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 560,
+        "y": 140,
+        "wires": [
+            [
+                "a97f5be06fbdf1f2"
+            ]
+        ]
+    },
+    {
+        "id": "a97f5be06fbdf1f2",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "Fill Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "227c50cf505c4ea5",
+        "type": "inject",
+        "z": "696c0dbeed57cf53",
+        "name": "Fill Tank 1%",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "dafc30562a72bcb3"
+            ]
+        ]
+    },
+    {
+        "id": "dafc30562a72bcb3",
+        "type": "function",
+        "z": "696c0dbeed57cf53",
+        "name": "set_post_message",
+        "func": "msg.payload = '{\"delta_level\": 1}';\nmsg.headers = {};\nmsg.headers['Content-Type'] = 'application/json';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 140,
+        "wires": [
+            [
+                "db57733692a59646"
+            ]
+        ]
+    },
+    {
+        "id": "de98a23e306f75cc",
+        "type": "http request",
+        "z": "696c0dbeed57cf53",
+        "name": "Water Tank Drain",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://watertank:5050/drain",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "b8404123a1c5852b"
+            ]
+        ]
+    },
+    {
+        "id": "b8404123a1c5852b",
+        "type": "debug",
+        "z": "696c0dbeed57cf53",
+        "name": "Drain Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "b1ba9d1b4a99d476",
+        "type": "inject",
+        "z": "696c0dbeed57cf53",
+        "name": "Drain Tank 1%",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "6b4e3491db85a747"
+            ]
+        ]
+    },
+    {
+        "id": "6b4e3491db85a747",
+        "type": "function",
+        "z": "696c0dbeed57cf53",
+        "name": "set_post_message",
+        "func": "msg.payload = '{\"delta_level\": 1}';\nmsg.headers = {};\nmsg.headers['Content-Type'] = 'application/json';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 220,
+        "wires": [
+            [
+                "de98a23e306f75cc"
+            ]
+        ]
     }
 ]
