@@ -1,23 +1,13 @@
 # Running in Kubernetes
 
 - Make sure you have access to these yaml files:
-    - `watertank.yaml`
-    - `levelcontroller.yaml`
-    - `nodered.yaml`
-
     or use the combined yaml file:
-    - `vwt_project.yaml`
+    - `vwt_deploy.yaml`
     
 
-apply them with kubectl
+Start the project:
 ```
-kubectl apply -f watertank.yaml
-kubectl apply -f levelcontroller.yaml
-kubectl apply -f nodered.yaml
-```
-or
-```
-kubectl apply -f vwt_project.yaml
+kubectl apply -f vwt_deploy.yaml
 ```
 
 Check that everything is running
@@ -39,7 +29,14 @@ watertank         NodePort    10.109.237.64    <none>        5050:30050/TCP   32
 
 Open your browser to your Kubernetes Node IP with port indicated in the services output. i.e.
 ```
-http://10.10.10.2:30051
+http://10.10.10.2:30051  -- Level Controller App
 
-http://10.10.10.2:30050
+http://10.10.10.2:30050  -- Virtual Watertank Display
+
+http://10.10.10.2:30880  -- Node Red UI
+```
+
+Stop the project:
+```
+kubectl delete -f vwt_deploy.yaml
 ```
