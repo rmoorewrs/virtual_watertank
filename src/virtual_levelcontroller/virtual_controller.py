@@ -262,19 +262,19 @@ tank = TankState(level_controller=controller)
 draft = TankDraft(level_setpoint=tank.level_setpoint, level_delta=tank.level_delta,update_period=tank.update_period)
 
 
-def acheive_partial_state(state: TankState):
+def achieve_partial_state(state: TankState):
     if (tank.tank_state== 'OVERFILL'):
         while ( tank.tank_state == 'OVERFILL'):
             tank.dir_state = 'DRAIN'
             tank.controller.drain(tank.level_increment)
-            tank.print('acheive_partial_state() OVERFILL')
+            tank.print('achieve_partial_state() OVERFILL')
             time.sleep(float(tank.update_period/1000.0))
             tank.compute_current_state()
     elif (tank.tank_state== 'UNDERFILL'):
         while ( tank.tank_state == 'UNDERFILL'):
             tank.dir_state = 'FILL'
             tank.controller.fill(tank.level_increment)
-            tank.print('acheive_partial_state() UNDERFILL')
+            tank.print('achieve_partial_state() UNDERFILL')
             time.sleep(float(tank.update_period/1000.0))
             tank.compute_current_state()
     else:
@@ -291,7 +291,7 @@ def cycle_task(state: TankState):
         tank.compute_current_state()
         # OVERFILL or UNDERFILL
         if (tank.tank_state== 'OVERFILL' or tank.tank_state == 'UNDERFILL'):
-            acheive_partial_state(state)
+            achieve_partial_state(state)
         # LIMITHIGH
         elif (tank.tank_state== 'LIMITHIGH'):
             # NOTE: CHANGING DIRECTION
