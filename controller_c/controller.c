@@ -4,7 +4,12 @@
 #include <errno.h>
 #include <unistd.h>
 #include <curl/curl.h>
+#if defined(__VXWORKS__)
+#include <cJSON.h>
+#include <taskLib.h>
+#else
 #include <cjson/cJSON.h>
+#endif
 
 #define DEFAULT_LEVEL_SETPOINT 50
 #define DEFAULT_LEVEL_DELTA 20
@@ -492,7 +497,11 @@ int main(void) {
         if (cycle_task(watertank) != 0)
             break;
         else
+#if defined (__VXWORKS__)
+        	taskDelay(60);
+#else
             usleep(watertank->update_period);
+#endif
     }
 
 
